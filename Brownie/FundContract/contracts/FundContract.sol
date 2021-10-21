@@ -12,11 +12,13 @@ contract FundContract {
     // Using Keyword: using A for B
     // Keyword "using" can be used to attach Library Functions (from the Library A) to any Type (B) in the Context of a Smart Contract
     // Using the Library SafeMathChainlink for all Variables of Type unit256 - prevent Overflow during arithmetic Operations
-    using SafeMathChainlink for uint256;
+    // using SafeMathChainLink for uint256;
 
     mapping(address => uint256) public addressToAmountFunded;
     address[] public funders;
     address public owner;
+    // Address from Price Feed Contract in Chainlink Docs: https://docs.chain.link/docs/ethereum-addresses/
+    AggregatorV3Interface public priceFeed;
 
     // A Modifier is sued to change the Behavior of a Function in a declarative Manner
     modifier onlyOwner {
@@ -32,7 +34,8 @@ contract FundContract {
     }
 
     // Constructor is instantly invoked when the Smart Contact is deployed
-    constructor() public {
+    constructor(address _priceFeed) public {
+        priceFeed = AggregatorV3Interface(_priceFeed);
         owner = msg.sender;
     }
 
@@ -48,17 +51,11 @@ contract FundContract {
     }
 
     function getVersion() public view returns (uint256) {
-        // Address from Price Feed Contract in Chainlink Docs: https://docs.chain.link/docs/ethereum-addresses/
-        // Calling the Price Feed Smart Contract with it Address on the Network Kovan
-        AggregatorV3Interface priceFeed = AggregatorV3Interface(0x9326BFA02ADD2366b30bacB125260Af641031331);
         // Calling another Contract from Chainlink to get the Aggregator Version
         return priceFeed.version();
     }
 
     function getPrice() public view returns (uint256) {
-        // Address from Price Feed Contract in Chainlink Docs: https://docs.chain.link/docs/ethereum-addresses/
-        // Calling the Price Feed Smart Contract with it Address on the Network Kovan
-        AggregatorV3Interface priceFeed = AggregatorV3Interface(0x9326BFA02ADD2366b30bacB125260Af641031331);
         // Calling another Contract from Chainlink - it returns the following Tuple: (roundId, answer, startedAt, updatedAt,answeredInRound)
         // Tuple: A List of Objects of potentially different Types whose Number is a Constant at Compile-Time
         // Calling another Contract from Chainlink to get the Price feed for ETH / USD
@@ -71,6 +68,14 @@ contract FundContract {
         uint256 ethPrice = getPrice();
         uint256 ethAmountInUsd = (ethPrice * ethAmount) / 1 ether;
         return ethAmountInUsd;
+    }
+
+    function getEntranceFee() public view returns (uint256) {
+        // Minimum USD
+        uint256 minimumUSD = 42 * 1 ether;
+        uint256 price = getPrice();
+        uint256 precision = 1 * 1 ether;
+        return (minimumUSD * precision) / price;
     }
 
     function withdrawFunds() payable onlyOwner public {
