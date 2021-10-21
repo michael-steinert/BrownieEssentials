@@ -1,7 +1,6 @@
 from brownie import network, accounts, config, FundContract
 
 LOCAL_BLOCKCHAIN_ENVIRONMENTS = ["development", "ganache-local"]
-FORKED_LOCAL_ENVIRONMENTS = ["mainnet-fork"]
 
 
 def deposit_contract():
@@ -21,7 +20,7 @@ def withdraw_contract():
 
 
 def get_account():
-    if network.show_active in LOCAL_BLOCKCHAIN_ENVIRONMENTS or network.show_active in FORKED_LOCAL_ENVIRONMENTS:
+    if network.show_active in LOCAL_BLOCKCHAIN_ENVIRONMENTS:
         return accounts[0]
     else:
         return accounts.add(config["wallets"]["from_key"])

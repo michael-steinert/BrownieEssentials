@@ -18,5 +18,5 @@ def test_updating_storage():
     # Act - When
     simple_storage.storeFavoriteNumber(42)
     updated_value = simple_storage.retrieveFavoriteNumber()
-    # Assert - That
+    # Assert - Then
     assert (updated_value == 42)
