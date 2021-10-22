@@ -2,8 +2,7 @@ from brownie import network, config, accounts, exceptions, FundContract, MockV3A
 from web3 import Web3
 import pytest
 
-LOCAL_BLOCKCHAIN_ENVIRONMENTS = ["development", "ganache-local"]
-FORKED_LOCAL_ENVIRONMENTS = ["mainnet-fork"]
+LOCAL_BLOCKCHAIN_ENVIRONMENTS = ["development", "ganache-local", "mainnet-fork"]
 
 
 def test_can_fund_and_withdraw():
@@ -23,8 +22,9 @@ def test_can_fund_and_withdraw():
     # Check that withdrew Amount is equal the saved Amount in Contract
     assert fund_contract.addressToAmountFunded(account.address) == 0
 
+
 def test_only_owner_can_withdraw():
-    if network.show_active in LOCAL_BLOCKCHAIN_ENVIRONMENTS or network.show_active in FORKED_LOCAL_ENVIRONMENTS:
+    if network.show_active in LOCAL_BLOCKCHAIN_ENVIRONMENTS:
         pytest.skip("Only for local Testing")
     fund_contract = deploy_fund_contract()
     not_owner = accounts.add()
@@ -32,9 +32,10 @@ def test_only_owner_can_withdraw():
     with pytest.raises(exceptions.VirtualMachineError):
         fund_contract.withdrawFunds({"from": not_owner})
 
+
 def deploy_fund_contract():
     account = get_account()
-    if network.show_active() not in LOCAL_BLOCKCHAIN_ENVIRONMENTS or network.show_active not in FORKED_LOCAL_ENVIRONMENTS:
+    if network.show_active() not in LOCAL_BLOCKCHAIN_ENVIRONMENTS:
         # Address from Price Feed Contract in Chainlink Docs: https://docs.chain.link/docs/ethereum-addresses/
         price_feed_address = config["networks"][network.show_active()]["eth_usd_price_feed"]
     else:

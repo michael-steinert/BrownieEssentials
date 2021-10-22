@@ -1,13 +1,12 @@
 from brownie import network, config, accounts, FundContract, MockV3Aggregator
 from web3 import Web3
 
-LOCAL_BLOCKCHAIN_ENVIRONMENTS = ["development", "ganache-local"]
-FORKED_LOCAL_ENVIRONMENTS = ["mainnet-fork"]
+LOCAL_BLOCKCHAIN_ENVIRONMENTS = ["development", "ganache-local", "mainnet-fork"]
 
 
 def deploy_fund_contract():
     account = get_account()
-    if network.show_active() not in LOCAL_BLOCKCHAIN_ENVIRONMENTS or network.show_active() not in FORKED_LOCAL_ENVIRONMENTS:
+    if network.show_active() not in LOCAL_BLOCKCHAIN_ENVIRONMENTS:
         # Address from Price Feed Contract in Chainlink Docs: https://docs.chain.link/docs/ethereum-addresses/
         price_feed_address = config["networks"][network.show_active()]["eth_usd_price_feed"]
     else:

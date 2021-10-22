@@ -4,6 +4,7 @@ from scripts.deploy_lottery_contract import deploy_lottery_contract, get_account
 import pytest
 import time
 
+
 def test_can_pick_winner():
     if network.show_active() in LOCAL_BLOCKCHAIN_ENVIRONMENTS:
         pytest.skip()

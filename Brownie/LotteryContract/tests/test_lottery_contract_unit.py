@@ -3,6 +3,7 @@ from web3 import Web3
 from scripts.deploy_lottery_contract import deploy_lottery_contract, get_account, LOCAL_BLOCKCHAIN_ENVIRONMENTS
 import pytest
 
+
 def test_get_entrance_fee():
     if network.show_active() not in LOCAL_BLOCKCHAIN_ENVIRONMENTS:
         pytest.skip()
@@ -15,6 +16,7 @@ def test_get_entrance_fee():
     # Assert - Then
     assert expected_entrance_fee == entrance_fee
 
+
 def test_can_not_enter_lottery_unless_stated():
     if network.show_active() not in LOCAL_BLOCKCHAIN_ENVIRONMENTS:
         pytest.skip()
@@ -24,6 +26,7 @@ def test_can_not_enter_lottery_unless_stated():
     # Assert - Then
     with pytest.raises(exceptions.VirtualMachineError):
         lottery_contract.enterLottery({"from": get_account(), "value": lottery_contract.getEntraceFee()})
+
 
 def test_can_start_and_enter_lottery():
     if network.show_active() not in LOCAL_BLOCKCHAIN_ENVIRONMENTS:
@@ -36,6 +39,7 @@ def test_can_start_and_enter_lottery():
     lottery_contract.enterLottery({"from": account, "value": lottery_contract.getEntranceFee()})
     # Assert - Then
     assert lottery_contract.players(0) == account
+
 
 def test_can_end_lottery():
     if network.show_active() not in LOCAL_BLOCKCHAIN_ENVIRONMENTS:
@@ -51,7 +55,8 @@ def test_can_end_lottery():
     link_token.transfer(lottery_contract.address, Web3.toWei(0.1, "ether"), {"from": account})
     lottery_contract.endLottery({"from": account})
     # Assert - Then
-    assert lottery_contract.lotteryState == 2 # 2 corresponds to LotteryState.CLOSED
+    assert lottery_contract.lotteryState == 2  # 2 corresponds to LotteryState.CLOSED
+
 
 def test_can_pick_winner_correctly():
     if network.show_active() not in LOCAL_BLOCKCHAIN_ENVIRONMENTS:
@@ -73,7 +78,8 @@ def test_can_pick_winner_correctly():
     # Get frequently deployed VRF Coordinator
     vrf_coordinator = VRFCoordinatorMock[-1]
     static_random_number = 42
-    vrf_coordinator.callBackWithRandomness(request_id, static_random_number, lottery_contract.address, {"from": account})
+    vrf_coordinator.callBackWithRandomness(request_id, static_random_number, lottery_contract.address,
+                                           {"from": account})
     # 3 Player and random Number 42 => 42 % 3 = 0 => Winner is first Player
     winner = get_account(index=0)
     starting_balance = winner.balance()

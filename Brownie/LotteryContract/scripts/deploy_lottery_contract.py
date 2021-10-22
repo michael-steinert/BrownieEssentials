@@ -2,8 +2,7 @@ from brownie import accounts, network, config, LotteryContract, MockV3Aggregator
 from web3 import Web3
 import time
 
-LOCAL_BLOCKCHAIN_ENVIRONMENTS = ["development", "ganache-local"]
-FORKED_LOCAL_ENVIRONMENTS = ["mainnet-fork"]
+LOCAL_BLOCKCHAIN_ENVIRONMENTS = ["development", "ganache-local", "mainnet-fork"]
 
 
 def deploy_lottery_contract():
@@ -81,7 +80,8 @@ def end_lottery():
     lottery_contract = LotteryContract[-1]
     # First Contract has to be funded with 0.1 Link Token
     link_token = LinkToken[-1]
-    funding_contract_with_link = link_token.transfer(lottery_contract.address, Web3.toWei(0.1, "ether"), {"from": account})
+    funding_contract_with_link = link_token.transfer(lottery_contract.address, Web3.toWei(0.1, "ether"),
+                                                     {"from": account})
     # Alternative using Interfaces:
     # interface.LinkTokenInterface(link_token).transfer(lottery_contract.address, Web3.toWei(0.1, "ether"), {"from": account})
     funding_contract_with_link.wait(1)
