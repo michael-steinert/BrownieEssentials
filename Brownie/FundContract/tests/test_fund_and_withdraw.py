@@ -24,7 +24,7 @@ def test_can_fund_and_withdraw():
 
 
 def test_only_owner_can_withdraw():
-    if network.show_active in LOCAL_BLOCKCHAIN_ENVIRONMENTS:
+    if network.show_active() in LOCAL_BLOCKCHAIN_ENVIRONMENTS:
         pytest.skip("Only for local Testing")
     fund_contract = deploy_fund_contract()
     not_owner = accounts.add()
@@ -56,7 +56,7 @@ def deploy_fund_contract():
 
 
 def get_account():
-    if network.show_active in LOCAL_BLOCKCHAIN_ENVIRONMENTS or network.show_active in FORKED_LOCAL_ENVIRONMENTS:
+    if network.show_active() in LOCAL_BLOCKCHAIN_ENVIRONMENTS:
         return accounts[0]
     else:
         return accounts.add(config["wallets"]["from_key"])
