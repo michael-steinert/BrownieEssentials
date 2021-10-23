@@ -23,9 +23,7 @@ def deploy_and_create():
     creating_transaction = simple_collectible.createCollectible(sample_token_uri, {"from": account})
     # Waiting for one Block Confirmation
     creating_transaction.wait(1)
-    print(
-        f"NFT at {OPENSEA_URL.format(simple_collectible.address, simple_collectible.tokenCounter() - 1)}"
-    )
+    print(f"NFT at {OPENSEA_URL.format(simple_collectible.address, simple_collectible.tokenCounter() - 1)}")
     return simple_collectible
 
 
