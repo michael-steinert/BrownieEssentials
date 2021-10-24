@@ -3,9 +3,6 @@ from web3 import Web3
 
 LOCAL_BLOCKCHAIN_ENVIRONMENTS = ["development", "ganache-local", "mainnet-fork"]
 
-sample_token_uri = "https://ipfs.io/ipfs/Qmd9MCGtdVz2miNumBHDbvj8bigSgTwnr4SbyH6DNnpWdt?filename=0-PUG.json"
-OPENSEA_URL = "https://testnets.opensea.io/assets/{}/{}"
-
 
 def deploy_advanced_collectible():
     account = get_account()
