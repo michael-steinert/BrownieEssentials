@@ -1,5 +1,4 @@
 from brownie import accounts, network, config, SimpleCollectible
-from web3 import Web3
 
 LOCAL_BLOCKCHAIN_ENVIRONMENTS = ["development", "ganache-local", "mainnet-fork"]
 
