@@ -1,0 +1,30 @@
+dependencies:
+  # - <organization/repo>@<version>
+  - OpenZeppelin/openzeppelin-contracts@4.2.0
+  - smartcontractkit/chainlink-brownie-contracts@0.2.1
+compiler:
+  solc:
+    remappings:
+      - "@openzeppelin=OpenZeppelin/openzeppelin-contracts@4.2.0"
+      - "@chainlink=smartcontractkit/chainlink-brownie-contracts@0.2.1"
+dotenv: .env
+networks:
+  rinkeby:
+    eth_usd_price_feed: "0x8A753747A1Fa494EC906cE90E9f37563A8AF630e"
+    w_eth_token: "0xc778417e063141139fce010982780140aa0cd5ab"
+    verify: True
+  kovan:
+    eth_usd_price_feed: "0x9326BFA02ADD2366b30bacB125260Af641031331"
+    w_eth_token: "0xd0a1e359811322d97991e03f863a0c30c2cf029c"
+    verify: True
+  mainnet-fork:
+    eth_usd_price_feed: "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419"
+    w_eth_token: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+    faucet_token: "0xFab46E002BbF0b4509813474841E0716E6730136"
+    dai_usd_price_feed: "0x777A68032a88E5A84678A77Af2CD65A7b3c0775a"
+    verify: False
+  default: development
+  development:
+    verify: False
+wallets:
+  from_key: ${PRIVATE_KEY}
