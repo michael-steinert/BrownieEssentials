@@ -1,6 +1,9 @@
 # Upgrade Smart Contracts with the Proxy Pattern
 
-* The Proxy Pattern is using the Methode delegatecall()
+* The Core Functionality of the  Proxy Pattern will be the same: it forwards all Messages it receives to the current Implementation of the Implementation Contract
+* The Proxy Pattern is using the Methode delegatecall() - It forwards the current Message to the Implementation, sending it the exact same Data Parameter it received
+* The Forwarding Logic in placed in the Fallback Function - this allows to forward any Call into the Proxy
+* The Proxy also needs its own Meta-Functionality, as it needs to be upgradeable - So Functions like implementation() and proxyOwner() will not be forwarded, given that they exist and the Fallback Function is not executed
 * delegatecall() is a special Variant of a Message Call
 * delegatecall() is identical to a Message Call apart from the Fact that the Code ath the Target Address is executed in the Context of the calling Contract and msg.sender and msg.value do not change their Values
 * For Example: Contract A is calling (delegatecalling) the Contract B - the Logic of Contract B is executed in the Context of Contract A
