@@ -1,0 +1,9 @@
+body {
+    background: linear-gradient(
+            135deg,
+            hsl(227, 61%, 13%),
+            hsl(227, 61%, 26%),
+            hsl(227, 61%, 39%)
+    );
+    margin: 0;
+}
